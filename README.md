@@ -60,16 +60,16 @@ target/release/exiometter
 ```
 
 ### From repo
-``bash
+```bash
 curl -fsSL https://repokai.remotewire.net/public.key | sudo gpg --dearmor -o /usr/share/keyrings/exiometter-keyring.gpg
 
 ```bash
 echo "deb [signed-by=/usr/share/keyrings/exiometter-keyring.gpg] https://repokai.remotewire.net/ noble main" | sudo tee /etc/apt/sources.list.d/exiometter.list
-```
+```bash
 sudo apt update
-``bash
+```bash
 sudo apt install exiometter
-
+```
 ## Usage
 
 1. Launch the application
