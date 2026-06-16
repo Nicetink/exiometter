@@ -11,7 +11,6 @@ exIOMetter is a graphical application that allows simultaneous audio playback to
 - Combine multiple audio outputs for simultaneous playback
 - Individual volume control per device (0-200%)
 - Per-device mute functionality
-- Real-time VU meter visualization
 - Application mixer for per-app volume control
 - Dark and light theme support
 - PulseAudio and PipeWire compatible
