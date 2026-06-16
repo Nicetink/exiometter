@@ -1,14 +1,12 @@
-<p align="center">
-  <h1>exIOMetter</h1>
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="logo/icon.png" alt="exIOMetter Logo" width="128" height="128">
-</p>
+# exIOMetter
 
-<p align="center">
-  <strong>Lightweight audio output mixer for Linux with PulseAudio/PipeWire support</strong>
-</p>
+<img src="logo/icon.png" alt="exIOMetter Logo" width="128" height="128">
+
+**Lightweight audio output mixer for Linux with PulseAudio/PipeWire support**
+
+</div>
 
 ## Screenshot
 
