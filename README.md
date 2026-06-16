@@ -1,103 +1,124 @@
-/home/user/combine-audio.sh (объединить)
+# exIOMetter
 
-bash
-#!/bin/bash
-pactl load-module module-combine-sink sink_name=combined sinks=alsa_output.pci-0000_00_1f.3.analog-stereo,alsa_output.pci-0000_01_00.1.hdmi-stereo
-pactl set-default-sink combined
-/home/user/separate-audio.sh (разъединить)
+Lightweight audio output mixer for Linux with PulseAudio/PipeWire support.
 
-bash
-#!/bin/bash
-ID=$(pactl list short modules | grep combine | awk '{print $1}')
-pactl unload-module $ID
-pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo# exIOMetter - Audio Output Mixer
+## Overview
 
-Программа для Linux для объединения нескольких аудиовыходов с индивидуальными микшерами для каждого канала.
+exIOMetter is a graphical application that allows simultaneous audio playback to multiple output devices. It provides individual volume control and muting for each connected audio device with real-time visual level monitoring.
 
-## Возможности
+## Features
 
-- ✅ Объединение 2 и более аудиовыходов
-- ✅ Одновременное воспроизведение звука на всех подключенных устройствах
-- ✅ Индивидуальный микшер для каждого канала:
-  - Регулировка громкости (0-200%)
-  - Кнопка Mute для каждого канала
-  - Визуальный индикатор уровня
-- ✅ Графический интерфейс на основе egui
-- ✅ Добавление/удаление устройств в реальном времени
-- ✅ Обновление списка доступных устройств
+- Combine multiple audio outputs for simultaneous playback
+- Individual volume control per device (0-200%)
+- Per-device mute functionality
+- Real-time VU meter visualization
+- Application mixer for per-app volume control
+- Dark and light theme support
+- PulseAudio and PipeWire compatible
+- Add/remove devices on the fly
 
-## Требования
+## System Requirements
 
-- Rust (версия 1.70 или новее)
-- ALSA или PulseAudio/PipeWire для аудио на Linux
-- Зависимости для сборки:
-  ```bash
-  sudo apt install libasound2-dev pkg-config  # Debian/Ubuntu
-  sudo dnf install alsa-lib-devel             # Fedora
-  sudo pacman -S alsa-lib                     # Arch Linux
-  ```
+- Linux operating system
+- PulseAudio or PipeWire audio server
+- Rust 1.70 or newer (for building from source)
 
-## Установка
+### Build Dependencies
 
-1. Клонируйте репозиторий:
+Debian/Ubuntu:
 ```bash
-git clone <repository-url>
+sudo apt install libpulse-dev libasound2-dev pkg-config
+```
+
+Fedora:
+```bash
+sudo dnf install pulseaudio-libs-devel alsa-lib-devel
+```
+
+Arch Linux:
+```bash
+sudo pacman -S libpulse alsa-lib
+```
+
+## Installation
+
+### From Source
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Nicetink/exiometter.git
 cd exiometter
 ```
 
-2. Соберите проект:
+2. Build the application:
 ```bash
 cargo build --release
 ```
 
-3. Запустите программу:
+3. The binary will be located at:
 ```bash
-cargo run --release
+target/release/exiometter
 ```
 
-## Использование
+### From .deb Package
 
-1. **Запустите приложение** - откроется графический интерфейс
+```bash
+sudo dpkg -i exiometter_x.x.x_amd64.deb
+```
 
-2. **Добавьте устройства вывода**:
-   - Выберите устройство из выпадающего списка "Available Devices"
-   - Нажмите кнопку "➕ Add Device"
-   - Повторите для всех нужных устройств
+## Usage
 
-3. **Настройте микшеры**:
-   - Для каждого добавленного устройства доступны:
-     - Слайдер громкости (0-200%)
-     - Чекбокс Mute для отключения звука
-     - Визуальный индикатор уровня
-   - Кнопка "🗑 Remove" для удаления устройства
+1. Launch the application
+2. Select an audio output device from the dropdown menu
+3. Click "Add" to add the device to the mixer
+4. Repeat for all desired output devices
+5. Click "Start" to begin routing audio to all selected devices
+6. Adjust individual volume sliders and mute buttons as needed
+7. Click "Stop" to stop the mixer
 
-4. **Запустите микшер**:
-   - Нажмите кнопку "▶ Start"
-   - Звук с входного устройства будет направлен на все добавленные выходы
-   - Нажмите "⏸ Stop" для остановки
+### Application Mixer
 
-5. **Обновите список устройств**:
-   - Нажмите "🔄 Refresh Devices" если подключили новое устройство
+Click "App Mixer" to control volume levels for individual applications currently playing audio.
 
-## Архитектура
+### Interface
 
-- **src/main.rs** - точка входа приложения
-- **src/audio_engine.rs** - движок обработки аудио с использованием cpal
-- **src/ui.rs** - графический интерфейс на egui
+- Volume sliders: Adjust from 0% (silent) to 200% (amplified)
+- Mute buttons: Instantly silence individual devices
+- VU meters: Real-time audio level visualization
+- Theme toggle: Switch between dark and light modes
 
-## Технологии
+## Technical Details
 
-- **Rust** - язык программирования
-- **egui/eframe** - графический интерфейс
-- **cpal** - кроссплатформенная библиотека для работы с аудио
-- **ringbuf** - ring buffer для передачи аудиоданных между потоками
-- **rubato** - ресемплинг (зарезервировано для будущих версий)
+### Architecture
 
-## Лицензия
+- **audio_engine.rs** - Core audio processing using PulseAudio bindings
+- **ui.rs** - User interface built with egui
+- **main.rs** - Application entry point and window initialization
+
+### Technology Stack
+
+- Rust programming language
+- egui/eframe for GUI
+- libpulse-binding for PulseAudio/PipeWire integration
+- image for icon handling
+
+### How It Works
+
+exIOMetter uses PulseAudio's module-combine-sink to create a virtual audio device that duplicates audio streams to multiple physical outputs. Each output maintains independent volume control and mute state through the PulseAudio API.
+
+## License
 
 Nicet Studio PUBLIC LICENSE Version 2, June 2026
+
 Copyright (C) 2026 KAInaps
 
-## Автор
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use, study, copy, modify, merge, and distribute the Software, subject to the conditions specified in the LICENSE file.
+
+## Author
 
 KAInaps
+
+## Contributing
+
+Contributions are welcome. Please ensure all changes maintain compatibility with both PulseAudio and PipeWire.
+
