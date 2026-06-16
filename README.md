@@ -63,11 +63,10 @@ target/release/exiometter
 ```bash
 curl -fsSL https://repokai.remotewire.net/public.key | sudo gpg --dearmor -o /usr/share/keyrings/exiometter-keyring.gpg
 
-```bash
 echo "deb [signed-by=/usr/share/keyrings/exiometter-keyring.gpg] https://repokai.remotewire.net/ noble main" | sudo tee /etc/apt/sources.list.d/exiometter.list
-```bash
+
 sudo apt update
-```bash
+
 sudo apt install exiometter
 ```
 ## Usage
