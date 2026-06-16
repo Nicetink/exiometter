@@ -1,6 +1,18 @@
 # exIOMetter
 
-Lightweight audio output mixer for Linux with PulseAudio/PipeWire support.
+<p align="center">
+  <img src="logo/icon.png" alt="exIOMetter Logo" width="128" height="128">
+</p>
+
+<p align="center">
+  <strong>Lightweight audio output mixer for Linux with PulseAudio/PipeWire support</strong>
+</p>
+
+## Screenshot
+
+<p align="center">
+  <img src="logo/Screenshot.png" alt="exIOMetter Screenshot">
+</p>
 
 ## Overview
 
