@@ -1,4 +1,6 @@
-# exIOMetter
+<p align="center">
+  <h1>exIOMetter</h1>
+</p>
 
 <p align="center">
   <img src="logo/icon.png" alt="exIOMetter Logo" width="128" height="128">
