@@ -1,11 +1,11 @@
 [package]
 name = "exiometter"
-version = "0.0.5"
+version = "0.0.6"
 edition = "2021"
 authors = ["KAInaps"]
 license = "Nicet Studio PUBLIC LICENSE v2"
 description = "Lite Audio Output Mixer for Linux"
-repository = "https://github.com/KAInaps/exIOMetter"
+repository = "https://github.com/Nicetink/exIOMetter"
 
 [dependencies]
 eframe = "0.28"
@@ -24,7 +24,7 @@ opt-level = 3
 lto = true
 
 [package.metadata.deb]
-maintainer = "KAInaps <kainaps@example.com>"
+maintainer = "KAInaps <kainaps>"
 copyright = "2026, KAInaps"
 license-file = ["LICENSE", "4"]
 extended-description = "exIOMetter is a lightweight audio output mixer for Linux with support for PulseAudio and PipeWire."

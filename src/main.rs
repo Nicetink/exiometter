@@ -1,11 +1,10 @@
 mod audio_engine;
-mod audio_monitor;
 mod ui;
 
 fn main() -> Result<(), eframe::Error> {
     env_logger::init();
     
-    // Загружаем иконку для окна
+    // icon
     let icon_bytes = include_bytes!("../logo/icon.png");
     
     let options = eframe::NativeOptions {

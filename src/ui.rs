@@ -254,43 +254,53 @@ impl ExIOMeterApp {
                         ui.label("No active applications playing sound");
                         ui.label("Start music or video in any application");
                     } else {
+                        // Use a HashSet to track which app indices we've already rendered
+                        let mut rendered_indices = std::collections::HashSet::new();
+                        
                         for app in self.audio_apps.clone() {
-                            ui.group(|ui| {
-                                ui.set_min_width(ui.available_width());
-                                
-                                ui.horizontal(|ui| {
-                                    ui.label(egui::RichText::new(&app.name).size(14.0).strong());
+                            // Skip if we've already rendered this app index
+                            if !rendered_indices.insert(app.index) {
+                                continue;
+                            }
+                            
+                            ui.push_id(app.index, |ui| {
+                                ui.group(|ui| {
+                                    ui.set_min_width(ui.available_width());
                                     
-                                    ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                                        let mute_state = self.app_mutes.get(&app.index).copied().unwrap_or(app.muted);
-                                        let mute_icon = if mute_state { "🔇" } else { "🔊" };
-                                        let button_color = if self.dark_theme {
-                                            egui::Color32::from_rgb(60, 60, 60)
-                                        } else {
-                                            egui::Color32::from_rgb(180, 180, 180)
-                                        };
-                                        let mute_btn = egui::Button::new(mute_icon)
-                                            .fill(button_color);
+                                    ui.horizontal(|ui| {
+                                        ui.label(egui::RichText::new(&app.name).size(14.0).strong());
                                         
-                                        if ui.add(mute_btn).clicked() {
-                                            let new_mute = !mute_state;
-                                            self.app_mutes.insert(app.index, new_mute);
-                                            let _ = self.audio_engine.lock().unwrap().set_app_mute(app.index, new_mute);
-                                        }
+                                        ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                                            let mute_state = self.app_mutes.get(&app.index).copied().unwrap_or(app.muted);
+                                            let mute_icon = if mute_state { "🔇" } else { "🔊" };
+                                            let button_color = if self.dark_theme {
+                                                egui::Color32::from_rgb(60, 60, 60)
+                                            } else {
+                                                egui::Color32::from_rgb(180, 180, 180)
+                                            };
+                                            let mute_btn = egui::Button::new(mute_icon)
+                                                .fill(button_color);
+                                            
+                                            if ui.add(mute_btn).clicked() {
+                                                let new_mute = !mute_state;
+                                                self.app_mutes.insert(app.index, new_mute);
+                                                let _ = self.audio_engine.lock().unwrap().set_app_mute(app.index, new_mute);
+                                            }
+                                        });
                                     });
+                                    
+                                    let volume = self.app_volumes.entry(app.index).or_insert(app.volume);
+                                    let old_volume = *volume;
+                                    
+                                    ui.add(egui::Slider::new(volume, 0.0..=1.5)
+                                        .text("Volume")
+                                        .show_value(true)
+                                        .custom_formatter(|v, _| format!("{:.0}%", v * 100.0)));
+                                    
+                                    if (*volume - old_volume).abs() > 0.001 {
+                                        let _ = self.audio_engine.lock().unwrap().set_app_volume(app.index, *volume);
+                                    }
                                 });
-                                
-                                let volume = self.app_volumes.entry(app.index).or_insert(app.volume);
-                                let old_volume = *volume;
-                                
-                                ui.add(egui::Slider::new(volume, 0.0..=1.5)
-                                    .text("Volume")
-                                    .show_value(true)
-                                    .custom_formatter(|v, _| format!("{:.0}%", v * 100.0)));
-                                
-                                if (*volume - old_volume).abs() > 0.001 {
-                                    let _ = self.audio_engine.lock().unwrap().set_app_volume(app.index, *volume);
-                                }
                             });
                             
                             ui.add_space(5.0);
@@ -387,7 +397,7 @@ impl ExIOMeterApp {
             }
             
             ui.label(egui::RichText::new("exIOMetter").size(24.0).strong());
-            ui.label(egui::RichText::new("v0.0.5").size(12.0).color(egui::Color32::GRAY));
+            ui.label(egui::RichText::new("v0.0.6").size(12.0).color(egui::Color32::GRAY));
             ui.add_space(10.0);
             
             ui.label("Lite Audio Output Mixer for Linux");
@@ -535,6 +545,13 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 
     fn update_app_list(&mut self) {
         if let Ok(apps) = self.audio_engine.lock().unwrap().list_audio_apps() {
+            // Create a set of current app indices
+            let current_indices: std::collections::HashSet<u32> = apps.iter().map(|a| a.index).collect();
+            
+            // Remove stale entries from volume and mute maps
+            self.app_volumes.retain(|idx, _| current_indices.contains(idx));
+            self.app_mutes.retain(|idx, _| current_indices.contains(idx));
+            
             self.audio_apps = apps.clone();
             for app in &apps {
                 self.app_volumes.entry(app.index).or_insert(app.volume);
