@@ -1,0 +1,40 @@
+[package]
+name = "exiometter"
+version = "0.0.5"
+edition = "2021"
+authors = ["KAInaps"]
+license = "Nicet Studio PUBLIC LICENSE v2"
+description = "Lite Audio Output Mixer for Linux"
+repository = "https://github.com/KAInaps/exIOMetter"
+
+[dependencies]
+eframe = "0.28"
+egui = "0.28"
+egui_extras = "0.28"
+libpulse-binding = "2.28"
+libpulse-simple-binding = "2.28"
+cpal = "0.15"
+anyhow = "1.0"
+log = "0.4"
+env_logger = "0.11"
+image = "0.24"
+
+[profile.release]
+opt-level = 3
+lto = true
+
+[package.metadata.deb]
+maintainer = "KAInaps <kainaps@example.com>"
+copyright = "2026, KAInaps"
+license-file = ["LICENSE", "4"]
+extended-description = "exIOMetter is a lightweight audio output mixer for Linux with support for PulseAudio and PipeWire."
+section = "sound"
+priority = "optional"
+assets = [
+    ["target/release/exiometter", "usr/bin/", "755"],
+    ["logo/icon.png", "usr/share/icons/hicolor/256x256/apps/exiometter.png", "644"],
+    ["target/release/exiometter.desktop", "usr/share/applications/", "644"],
+    ["README.md", "usr/share/doc/exiometter/", "644"],
+    ["LICENSE", "usr/share/doc/exiometter/", "644"],
+]
+depends = "$auto, libpulse0, libssl3"

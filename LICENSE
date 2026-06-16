@@ -1,0 +1,40 @@
+Nicet Studio PUBLIC LICENSE
+Version 2, June 2026
+
+Copyright (C) 2026 KAInaps
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use, study, copy, modify, merge, and distribute the Software, subject to the following conditions:
+
+ATTRIBUTION REQUIREMENT
+The original copyright notice, license text, and attribution to the original author ("KAInaps") must be included in all copies, modified versions, forks, and substantial portions of the Software.
+
+Any modified version must clearly indicate that changes were made and identify the authors of those changes. However, no modified version may remove, replace, obscure, or misrepresent the original authorship of the Software.
+
+OPEN SOURCE DISTRIBUTION REQUIREMENT
+Any distribution of the Software, whether modified or unmodified, must include the complete corresponding source code.
+
+The source code must be provided under this same license and must be available to all recipients of the distributed Software without additional restrictions.
+
+Distribution of compiled, obfuscated, encrypted, or binary-only versions of the Software without providing the complete corresponding source code is strictly prohibited.
+
+DERIVATIVE WORKS
+Users are permitted to create forks, modifications, extensions, and derivative works of the Software.
+
+Derivative works may be distributed, provided that:
+- The complete source code is made available
+- This license remains attached
+- The original author attribution is preserved
+- Any modifications are clearly documented
+
+CONTRIBUTIONS
+Contributors are encouraged, but not required, to submit improvements, bug fixes, and enhancements to the original project maintained by the original author.
+
+ADDITIONAL RESTRICTIONS
+No person or organization may claim exclusive ownership of the Software or any derivative work based substantially upon it.
+
+No person or organization may distribute a derivative work under a more restrictive license that would prevent recipients from accessing, modifying, or redistributing the source code.
+
+DISCLAIMER
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
